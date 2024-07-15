@@ -1,0 +1,258 @@
+
+\documentclass{article}
+
+\usepackage{geometry}
+\usepackage{parskip}
+
+\usepackage{graphicx}
+
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks,allcolors=gray}
+
+\usepackage{authblk}
+\usepackage[style=alphabetic]{biblatex}
+
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+
+\newcommand{\impl}{~\Rightarrow~}
+\newcommand{\eqv}{~\Leftrightarrow~}
+\newcommand{\conj}{~\land~}
+\newcommand{\disj}{~\lor~}
+
+\newcommand{\trileft}{\triangleleft}
+\newcommand{\triright}{\triangleright}
+
+\newcommand{\tridown}{\mathbin{\hspace{.1em}\raisebox{.02em}{\rotatebox[origin=c]{90}{$\triangleleft$}}}}
+\newcommand{\triup}{\mathbin{\hspace{.1em}\raisebox{.05em}{\rotatebox[origin=c]{-90}{$\triangleleft$}}}}
+
+\newcommand{\ntridown}{\mathbin{\raisebox{.065em}{$\not$}\hspace{.19em}\raisebox{.02em}{\rotatebox[origin=c]{90}{$\triangleleft$}}}}
+%\newcommand{\ntriup}{\mathbin{{\raisebox{.05em}\not}\hspace{-.12em}\hspace{.08em}\raisebox{.05em}{\rotatebox[origin=c]{-90}{$\triangleleft$}}}}
+
+\newcommand{\comp}{\tridown}
+\newcommand{\ncomp}{\ntridown}
+
+\newcommand{\diff}{\mathbin{\hspace{-.2em}\raisebox{.06em}{\rotatebox[origin=c]{-45}{$-$}\hspace{-.24em}}}}
+
+\newcommand{\pto}{\rightharpoonup}
+\newcommand{\pmapsto}{\mathrel{\ooalign{$\rightharpoonup$\cr\kern-.08ex\raise.2ex\hbox{\scalebox{0.988}[0.82]{$\shortmid$}}\cr}}}
+
+\newcommand{\into}{\hookrightarrow}
+
+\newcommand{\eps}{\varepsilon}
+
+
+
+\title{\huge\bf Partial Algebra and \(\mathbb{F}_1\)}
+\author{Liam Bohocki-Rackotch}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We generalize many of the elementary definitions of commutative and linear algebra to the case of partial additive operations and obtain a theory rich enough to admit a partial field satisfying some properties expected of the (pseudo-)field with one element.
+\end{abstract}
+
+\tableofcontents
+
+\section{Paragroups}
+
+We begin by partializing basic classes of magmas, in an effort to state their various properties clearly and independently before introducing paragroups. In this document, the prefix ``para'' is intended to be semantically equivalent to the adjective ``partial''. Thus, for instance, ``paragroup'' and ``partial group'' may both be used to refer to the same concept.
+
+\begin{definition}[Paramagma]
+A \textit{paramagma} \(\mathfrak{m}\) consists of a set \(\Omega_\mathfrak{m}\) called \textit{the set of elements of} \(\mathfrak{m}\) and a partial binary operation \(\circ_\mathfrak{m}\in\Omega_\mathfrak{m}\times\Omega_\mathfrak{m}\pto\Omega_\mathfrak{m}\) on \(\Omega_\mathfrak{m}\) called \textit{the composition (operation) of} \(\mathfrak{m}\). The domain \(\text{dom}(\circ_\mathfrak{m})\subseteq\Omega_\mathfrak{m}\times\Omega_\mathfrak{m}\) of \(\mathfrak{m}\)'s composition operation \(\circ_\mathfrak{m}\) shall be interpreted as a binary relation \(\comp_\mathfrak{m}:=\text{dom}(\circ_\mathfrak{m})\) on \(\mathfrak{m}\) called \textit{the composability (relation) of} \(\mathfrak{m}\).
+\end{definition}
+
+Even in the case of partial operations, we still require homomorphisms to be total maps, in order to keep subobjects and quotients tame; but subobjects and quotients will not be discussed here.
+
+The identities imposed on well-known algebraic structures can be generalized in the weakest way, by introducing definedness/composability hypotheses as antecedents wherever necessary. We will often prefix notions obtained in this way with ``pre'', because usually, additional hypotheses about composability are necessary to prove essential theorems. This also applies to the definition of homomorphisms:
+
+\begin{definition}[Paramagma Homomorphism]
+Let \(\mathfrak{m}\) and \(\mathfrak{n}\) be paramagmas. A total map \(h\in\Omega_\mathfrak{m}\to\Omega_\mathfrak{n}\) from \(\Omega_\mathfrak{m}\) to \(\Omega_\mathfrak{n}\) is called a \textit{paramagma prehomomorphism from} \(\mathfrak{m}\) \textit{to} \(\mathfrak{n}\) when \[a\comp_\mathfrak{m}b\conj h(a)\comp_\mathfrak{n}h(b)\impl h(a\circ_\mathfrak{m}b)=h(a)\circ_\mathfrak{n}h(b)\] for all \(a,b\in\Omega_\mathfrak{m}\). It is called a \textit{paramagma homomorphism from} \(\mathfrak{m}\) \textit{to} \(\mathfrak{n}\) when it is a paramagma prehomomorphism from \(\mathfrak{m}\) to \(\mathfrak{n}\) and \(a\comp_\mathfrak{m}b\impl h(a)\comp_\mathfrak{n}h(b)\) for all \(a,b\in\Omega_\mathfrak{m}\).
+\end{definition}
+
+Unitality generalizes straightforwardly to the partial case. Notice that even when considering partial composition, units must always be composable with all elements.
+
+\begin{definition}[Unital Paramagma]
+A paramagma \(\mathfrak{m}\) is called \textit{left-unital} (resp. \textit{right-unital}) when there exists an element \(e\in\Omega_\mathfrak{m}\), called a \textit{left-unit} (resp. \textit{right-unit}) \textit{of} \(\mathfrak{m}\) such that \[e\comp_\mathfrak{m}a\conj e\circ_\mathfrak{m}a=a\qquad(\text{resp. }a\comp_\mathfrak{m}e\conj a\circ_\mathfrak{m}e=a)\] for all \(a\in\Omega_\mathfrak{m}\). It is called \textit{unital} when it is left-unital and right-unital. In that case, left-units and right-units are unique and coincide. The left- and right-unit \(e\in\Omega_\mathfrak{m}\) of a unital paramagma \(\mathfrak{m}\) is called \textit{the unit} of \(\mathfrak{m}\) and is denoted by \(\eps_\mathfrak{m}:=e\).
+\end{definition}
+
+\begin{definition}[Unital Paramagma Homomorphism]
+Let \(\mathfrak{m}\) and \(\mathfrak{n}\) be unital paramagmas. A paramagma (pre)homomorphism \(h\) from \(\mathfrak{m}\) to \(\mathfrak{n}\) is called \textit{unital} when \(h(\eps_\mathfrak{m})=\eps_\mathfrak{n}\).
+\end{definition}
+
+The existence of unique inverses is a rather needlessly restrictive condition, which, in fact, is not satisfied by our proposed candidate for \(\mathbb{F}_1\). If, instead, only uniqueness of inverses is guaranteed, many more interesting, yet still non-pathological objects can be considered, while analogs of important standard results continue to hold. This uniqueness without general existence of inverses is expressed by cancellativity:
+
+\begin{definition}[Cancellative Paramagma]
+A paramagma \(\mathfrak{m}\) is called \textit{left-cancellative} (resp. \textit{right-cancellative}) when \[c\comp_\mathfrak{m}a\conj c\comp_\mathfrak{m}b\conj c\circ_\mathfrak{m}a=c\circ_\mathfrak{m}b\impl a=b\]\[(\text{resp. }a\comp_\mathfrak{m}c\conj b\comp_\mathfrak{m}c\conj a\circ_\mathfrak{m}c=b\circ_\mathfrak{m}c\impl a=b)\] for all \(a,b,c\in\Omega_\mathfrak{m}\). It is called \textit{cancellative} when it is left-cancellative and right-cancellative.
+\end{definition}
+
+There are multiple interesting notions of associativity for partial binary operations. We require a rather strong notion which allows proving the definedness and equality of all associations of (i.e. ways of associating/parenthesizing) a finite, ordered list of elements from the definedness of just one of its associations:
+
+\begin{definition}[Associative Paramagma]
+A paramagma \(\mathfrak{m}\) is called \textit{preassociative} when \[a\comp_\mathfrak{m}b\conj(a\circ_\mathfrak{m}b)\comp_\mathfrak{m}c\conj b\comp_\mathfrak{m}c\conj a\comp_\mathfrak{m}(b\circ_\mathfrak{m}c)\]\[\impl(a\circ_\mathfrak{m}b)\circ_\mathfrak{m}c=a\circ_\mathfrak{m}(b\circ_\mathfrak{m}c)\] for all \(a,b,c\in\Omega_\mathfrak{m}\). It is called \textit{associative} when it is preassociative and \[(a\comp_\mathfrak{m}b\conj(a\circ_\mathfrak{m}b)\comp_\mathfrak{m}c)\eqv(b\comp_\mathfrak{m}c\conj a\comp_\mathfrak{m}(b\circ_\mathfrak{m}c))\] for all \(a,b,c\in\Omega_\mathfrak{m}\), i.e. if one side of the associative identity is defined, then so is the other side.
+\end{definition}
+
+The suitable generalization of commutativity is also a strong one:
+
+\begin{definition}[Commutative Paramagma]
+A paramagma \(\mathfrak{m}\) is called \textit{precommutative} when \(a\comp_\mathfrak{m}b\conj b\comp_\mathfrak{m}a\impl a\circ_\mathfrak{m}b=b\circ_\mathfrak{m}a\) for all \(a,b\in\Omega_\mathfrak{m}\). It is called \textit{commutative} when it is precommutative and \(a\comp_\mathfrak{m}b\eqv b\comp_\mathfrak{m}a\) for all \(a,b\in\Omega_\mathfrak{m}\).
+\end{definition}
+
+\begin{definition}[Paragroup]
+A unital, cancellative, associative paramagma is called a \textit{paragroup}. It is called a \textit{commutative paragroup} when it is commutative and a paragroup. As for total groups, they are called \textit{abelian} instead of commutative when interpreted additively.
+\end{definition}
+
+%Explicitly, the definition states that a paramagma \(\mathfrak{m}\) is called a paragroup when
+%\begin{align*}
+%\end{align*}
+
+\begin{definition}[Paragroup Homomorphism]
+Let \(\mathfrak{m}\) and \(\mathfrak{n}\) be paragroups. A unital paramagma (pre)homomorphism from \(\mathfrak{m}\) to \(\mathfrak{n}\) is called a paragroup (pre)homomorphism. It is easy to see that all paramagma homomorphisms between paragroups are unital.
+\end{definition}
+
+Paragroups and their properties can be conceptualized somewhat visually by interpreting the partial binary operation \(\circ\in\Omega\times\Omega\pto\Omega\) as a ternary relation \(\circ\subseteq\Omega\times\Omega\times\Omega\) whose elements \((a,b,c)\in\circ\) are directed edges from a vertex \(a\in\Omega\) to a vertex \(c\in\Omega\) labelled by a vertex \(b\in\Omega\). For total groups, this labelled, directed graph is the full Cayley graph of the group, and the picture remains helpful for paragroups and even for paramagmas and arbitrary ternary relations if Cayley graphs may be multigraphs. From this perspective, functionality and left- and right-cancellativity are closely related and important uniqueness conditions on the labelled edges. Furthermore, preassociativity and precommutativity constrain the structure of the graph in ways that make it ``flatter'' whereas (the composability conditions of) associativity and commutativity constrain it in ways that make it ``fuller'', in the sense that actions of elements on the graph, i.e. translations, are more well-behaved and closer to total, respectively.
+
+\section{Pararings and Parafields}
+
+For the sake of consistency, we call a set \(\Omega\) together with two total binary operations \(+,\cdot\in\Omega\times\Omega\to\Omega\) on \(\Omega\) a \textit{caldera}, in accordance with the volcanological term ``magma''. Consequently, we define:
+
+\begin{definition}[Paracaldera]
+A \textit{paracaldera} \(\mathfrak{c}\) consists of a set \(\Omega_\mathfrak{c}\) called \textit{the set of elements of} \(\mathfrak{c}\), a partial binary operation \(+_\mathfrak{c}\in\Omega_\mathfrak{c}\times\Omega_\mathfrak{c}\pto\Omega_\mathfrak{c}\) on \(\Omega_\mathfrak{c}\) called \textit{the addition (operation) of} \(\mathfrak{c}\) and a total binary operation \(\cdot_\mathfrak{c}\in\Omega_\mathfrak{c}\times\Omega_\mathfrak{c}\to\Omega_\mathfrak{c}\) on \(\Omega_\mathfrak{c}\) called \textit{the multiplication (operation) of} \(\mathfrak{c}\). The domain \(\text{dom}(+_\mathfrak{c})\subseteq\Omega_\mathfrak{c}\times\Omega_\mathfrak{c}\) of \(\mathfrak{c}\)'s addition operation \(+_\mathfrak{c}\) shall be interpreted as a binary relation \(\comp_\mathfrak{c}:=\text{dom}(+_\mathfrak{c})\) on \(\mathfrak{c}\) called \textit{the summability (relation) of} \(\mathfrak{c}\). The set of elements \(\Omega_\mathfrak{c}\) of \(\mathfrak{c}\) together with \(\mathfrak{c}\)'s addition operation \(+_\mathfrak{c}\) forms a paramagma \(\mathfrak{c}^+\) called \textit{the additive paramagma of} \(\mathfrak{c}\). The set of elements \(\Omega_\mathfrak{c}\) of \(\mathfrak{c}\) together with \(\mathfrak{c}\)'s multiplication operation \(\cdot_\mathfrak{c}\) forms a magma \(\mathfrak{c}^\ast\) called \textit{the multiplicative magma of} \(\mathfrak{c}\).
+\end{definition}
+
+\begin{definition}[Paracaldera Homomorphism]
+Let \(\mathfrak{c}\) and \(\mathfrak{d}\) be paracalderas. A total map \(h\in\Omega_\mathfrak{c}\to\Omega_\mathfrak{d}\) from \(\Omega_\mathfrak{c}\) to \(\Omega_\mathfrak{d}\) is called a \textit{paracaldera prehomomorphism from} \(\mathfrak{c}\) \textit{to} \(\mathfrak{d}\) when \[a\comp_\mathfrak{c}b\conj h(a)\comp_\mathfrak{d}h(b)\impl h(a+_\mathfrak{c}b)=h(a)+_\mathfrak{d}h(b)\] for all \(a,b\in\Omega_\mathfrak{c}\) and \(h\) is a magma homomorphism from the multiplicative magma \(\mathfrak{c}^\ast\) of \(\mathfrak{c}\) to the multiplicative magma \(\mathfrak{d}^\ast\) of \(\mathfrak{d}\), i.e. \(h(a\cdot_\mathfrak{c}b)=h(a)\cdot_\mathfrak{d}h(b)\) for all \(a,b\in\Omega_\mathfrak{c}\). It is called a \textit{paracaldera homomorphism from} \(\mathfrak{c}\) \textit{to} \(\mathfrak{d}\) when it is a paracaldera prehomomorphism from \(\mathfrak{c}\) to \(\mathfrak{d}\) and \(a\comp_\mathfrak{c}b\impl h(a)\comp_\mathfrak{d}h(b)\) for all \(a,b\in\Omega_\mathfrak{c}\).
+\end{definition}
+
+\begin{definition}[Unital Paracaldera]
+A paracaldera \(\mathfrak{c}\) is called \textit{unital} when its multiplicative magma \(\mathfrak{c}^\ast\) is unital, i.e. there exists an element \(1\in\Omega_\mathfrak{c}\) such that \(1\cdot_\mathfrak{c}a=a=a\cdot_\mathfrak{c}1\) for all \(a\in\Omega_\mathfrak{c}\).
+\end{definition}
+
+\begin{definition}[Unital Paracaldera Homomorphism]
+Let \(\mathfrak{c}\) and \(\mathfrak{d}\) be unital paracalderas. A paracaldera (pre)homomorphism \(h\) from \(\mathfrak{c}\) to \(\mathfrak{d}\) is called \textit{unital} when \(h\) is a unital magma homomorphism from the unital multiplicative magma \(\mathfrak{c}^\ast\) of \(\mathfrak{c}\) to the unital multiplicative magma \(\mathfrak{d}^\ast\) of \(\mathfrak{d}\), i.e. \(h(1_\mathfrak{c})=1_\mathfrak{d}\) where \(1_\mathfrak{c}\) and \(1_\mathfrak{d}\) denote the unique units of the unital multiplicative magmas \(\mathfrak{c}^\ast\) and \(\mathfrak{d}^\ast\) of \(\mathfrak{c}\) and \(\mathfrak{d}\), respectively.
+\end{definition}
+
+The following is the strangest definition of this project, and we have not yet investigated any of its consequences on pararings or paracalderas. The main reason for its current status as an axiom of pararing theory is the fact that our candidate for \(\mathbb{F}_1\) is strict. Furthermore, it will be important to assume strictness, not of a pararing's multiplication, but of a paramodule's transformation (i.e. scalar multiplication), to restrict the concept of paramodules, and ultimately, to ensure that the category of \(\mathbb{F}_1\)-paravector spaces is equivalent to the category of pointed sets.
+
+\begin{definition}[Strict Paracaldera]
+A paracaldera \(\mathfrak{c}\) is called \textit{left-strict} (resp. \textit{right-strict}) when the additive paramagma \(\mathfrak{c}^+\) of \(\mathfrak{c}\) is unital with unit \(0\in\Omega_\mathfrak{c}\) and \[c\comp_\mathfrak{c}d\conj(c\cdot_\mathfrak{c}a)\comp_\mathfrak{c}(d\cdot_\mathfrak{c}b)\impl a\comp_\mathfrak{c}b\qquad(\text{resp. }c\comp_\mathfrak{c}d\conj(a\cdot_\mathfrak{c}c)\comp_\mathfrak{c}(b\cdot_\mathfrak{c}d)\impl a\comp_\mathfrak{c}b)\] for all \(a,b\in\Omega_\mathfrak{c}\) and all non-zero \(c,d\in\Omega_\mathfrak{c}\diff\{0\}\). It is called \textit{strict} when it is left-strict and right-strict.
+\end{definition}
+
+As usual, distributivity states that the multiplicative left- and right- actions of any element (i.e. scalings) are homomorphisms of the additive structure:
+
+\begin{definition}[Distributive Paracaldera]
+A paracaldera \(\mathfrak{c}\) is called \textit{left-predistributive} (resp. \textit{right-predistributive}) when \[a\comp_\mathfrak{c}b\conj(c\cdot_\mathfrak{c}a)\comp_\mathfrak{c}(c\cdot_\mathfrak{c}b)\impl c\cdot_\mathfrak{c}(a+_\mathfrak{c}b)=(c\cdot_\mathfrak{c}a)+_\mathfrak{c}(c\cdot_\mathfrak{c}b)\]\[(\text{resp. }a\comp_\mathfrak{c}b\conj(a\cdot_\mathfrak{c}c)\comp_\mathfrak{c}(b\cdot_\mathfrak{c}c)\impl\\(a+_\mathfrak{c}b)\cdot_\mathfrak{c}c=(a\cdot_\mathfrak{c}c)+_\mathfrak{c}(b\cdot_\mathfrak{c}c))\] for all \(a,b,c\in\Omega_\mathfrak{c}\). It is called \textit{predistributive} when it is left-predistributive and right-predistributive. A paracaldera \(\mathfrak{c}\) is called \textit{left-distributive} (resp. \textit{right-distributive}) when it is left-predistributive (resp. \textit{right-predistributive}) and \[a\comp_\mathfrak{c}b\impl(c\cdot_\mathfrak{c}a)\comp_\mathfrak{c}(c\cdot_\mathfrak{c}b)\qquad(\text{resp. }a\comp_\mathfrak{c}b\impl(a\cdot_\mathfrak{c}c)\comp_\mathfrak{c}(b\cdot_\mathfrak{c}c))\] for all \(a,b,c\in\Omega_\mathfrak{c}\). It is called \textit{distributive} when it is left-distributive and right-distributive.
+\end{definition}
+
+\begin{definition}[Commutative Paracaldera]
+A paracaldera \(\mathfrak{c}\) is called \textit{commutative} when its multiplicative magma \(\mathfrak{c}^\ast\) is commutative.
+\end{definition}
+
+We extend and adopt the common convention of pararings (and thus, rings) and their homomorphisms being unital by definition:
+
+\begin{definition}[Pararing]
+A unital, strict, distributive paracaldera \(\mathfrak{c}\) is called a pararing when its additive paramagma \(\mathfrak{c}^+\) is an abelian paragroup and its multiplicative magma \(\mathfrak{c}^\ast\) is associative (and hence, by unitality, a monoid). The unique unit \(0_\mathfrak{c}\in\Omega_\mathfrak{c}\) of the additive paragroup \(\mathfrak{c}^+\) of \(\mathfrak{c}\) is called \textit{the zero (element) of} \(\mathfrak{c}\). The unique unit \(1_\mathfrak{c}\in\Omega_\mathfrak{c}\) of the multiplicative monoid \(\mathfrak{c}^\ast\) of \(\mathfrak{c}\) is called \textit{the identity/unit (element) of} \(\mathfrak{c}\).
+\end{definition}
+
+%Explicitly, the definition states that a paracaldera \(\mathfrak{c}\) is called a pararing when
+%\begin{align*}
+%\end{align*}
+
+\begin{definition}[Pararing Homomorphism]
+Let \(\mathfrak{c}\) and \(\mathfrak{d}\) be pararings. A unital paracaldera (pre)homomorphism from \(\mathfrak{c}\) to \(\mathfrak{d}\) is called a pararing (pre)homomorphism.
+\end{definition}
+
+\begin{definition}[Parafield]
+A commutative pararing \(\mathfrak{c}\) is called a parafield when every non-zero element \(a\in\Omega_\mathfrak{c}\diff\{0_\mathfrak{c}\}\) of \(\mathfrak{c}\) is multiplicatively invertible, i.e. there exists \(b\in\Omega_\mathfrak{c}\) such that \(a\cdot_\mathfrak{c}b=1_\mathfrak{c}\). The set \(\Omega_\mathfrak{c}\diff\{0_\mathfrak{c}\}\) of non-zero elements of \(\mathfrak{c}\) together with the restriction of \(\mathfrak{c}\)'s multiplication operation \(\cdot_\mathfrak{c}\) to \(\Omega_\mathfrak{c}\diff\{0_\mathfrak{c}\}\) forms a group \(\mathfrak{c}^\times\) called \textit{the multiplicative group of} \(\mathfrak{c}\).
+\end{definition}
+
+\begin{definition}[Parafield Homomorphism]
+Parafield (pre)homomorphisms are simply pararing (pre)homomorphisms between parafields.
+\end{definition}
+
+\section{Parafield Extensions of \texorpdfstring{\(\mathbb{F}_1\)}{F1}}
+
+Let \(\mathbb{F}_1\) be the paracaldera defined by \(\Omega_{\mathbb{F}_1}=\{0,1\}\), \((+_{\mathbb{F}_1})=\{(0,0,0),(0,1,1),(1,0,1)\}\) and \((\cdot_{\mathbb{F}_1})=\{(0,0,0),(0,1,0),(1,0,0),(1,1,1)\}\). It is a parafield with zero
+\(0_{\mathbb{F}_1}=0\) and identity \(1_{\mathbb{F}_1}=1\).
+
+Let \(0\in\mathbb{N}\) and let \(C_n\) denote the cyclic group of order \(n\in\mathbb{N}\diff\{0\}\). Let \(\mathbb{F}_{1^n}\) be the paracaldera defined by \[\Omega_{\mathbb{F}_{1^n}}=\Omega_{C_n}\mathbin{\dot\cup}\{0\}\text{,}\quad(+_{\mathbb{F}_{1^n}})=\{(0,a,a),(a,0,a)~|~a\in\Omega_{\mathbb{F}_{1^n}}\}\quad\text{and}\]\[(\cdot_{\mathbb{F}_{1^n}})=\{(a,0,0),(0,b,0),(a,b,c)~|~a,b,c\in\Omega_{C_n}\conj a\circ_{C_n}b=c\}\text{.}\] It is a parafield with multiplicative group \(\mathbb{F}_{1^n}^\times=C_n\), zero \(0_{\mathbb{F}_{1^n}}=0\) and identity \(1_{\mathbb{F}_{1^n}}=\eps_{C_n}\). We have \(\mathbb{F}_{1^0}=\{0\}\), \(\mathbb{F}_{1^1}=\mathbb{F}_1\) and there exists a unique parafield embedding of \(\mathbb{F}_{1}\) into \(\mathbb{F}_{1^n}\) for every non-zero \(n\in\mathbb{N}\diff\{0\}\).
+
+By the same construction, there exist parafield extensions of \(\mathbb{F}_1\) with arbitrary multiplicative groups. We are uncertain whether this warrants further restriction of the notion of parafields.
+
+\section{Paramodules and Paravector Spaces}
+
+Let \(\mathfrak{c}\) be a caldera. We call a magma \(\mathfrak{m}\) together with a total left-action \(\cdot_\mathfrak{m}\in\Omega_\mathfrak{c}\times\Omega_\mathfrak{m}\to\Omega_\mathfrak{m}\) of \(\Omega_\mathfrak{c}\) on \(\Omega_\mathfrak{m}\) a \textit{left-fissure over} \(\mathfrak{c}\). Here, we omit the opposite analogs of definitions.
+
+\begin{definition}[Left-Parafissure]
+Let \(\mathfrak{c}\) be a paracaldera. A \textit{left-parafissure} \(\mathfrak{m}\) \textit{over} \(\mathfrak{c}\) consists of a paramagma \(\mathfrak{m}^+\), called \textit{the additive paramagma of} \(\mathfrak{m}\) and a total left-action \(\cdot_\mathfrak{m}\in\Omega_\mathfrak{c}\times\Omega_\mathfrak{m}\to\Omega_\mathfrak{m}\) of \(\Omega_\mathfrak{c}\) on \(\Omega_\mathfrak{m}\) called \textit{the left-transformation (action) of} \(\mathfrak{m}\).
+\end{definition}
+
+\begin{definition}[Left-Parafissure Homomorphism]
+Let \(\mathfrak{c}\) be a paracaldera and let \(\mathfrak{m}\) and \(\mathfrak{n}\) be left-parafissures over \(\mathfrak{c}\). A total map \(h\in\Omega_\mathfrak{m}\to\Omega_\mathfrak{n}\) from \(\Omega_\mathfrak{m}\) to \(\Omega_\mathfrak{n}\) is called a \textit{left-parafissure (pre)homomorphism from} \(\mathfrak{m}\) \textit{to} \(\mathfrak{n}\) when it is a paramagma (pre)homomorphism from the additive paramagma \(\mathfrak{m}^+\) of \(\mathfrak{m}\) to the additive paramagma \(\mathfrak{n}^+\) of \(\mathfrak{n}\) and \(h(\alpha\cdot_\mathfrak{m}b)=\alpha\cdot_\mathfrak{n}h(b)\) for all \(\alpha\in\Omega_\mathfrak{c}\) and all \(b\in\Omega_\mathfrak{m}\).
+\end{definition}
+
+\begin{definition}[Unital Left-Parafissure]
+Let \(\mathfrak{c}\) be a unital paracaldera. A left-parafissure \(\mathfrak{m}\) over \(\mathfrak{c}\) is called \textit{unital} when \(1_\mathfrak{c}\cdot_\mathfrak{m}a=a\) for all \(a\in\Omega_\mathfrak{m}\).
+\end{definition}
+
+Note that all notions of strictness are trivial when the relevant additive structures are total, i.e. calderas and fissures, including rings and modules respectively, are strict.
+
+\begin{definition}[Strict Left-Parafissure]
+Let \(\mathfrak{c}\) be a paracaldera. A left-parafissure \(\mathfrak{m}\) over \(\mathfrak{c}\) is called \textit{left-strict} when the additive paramagma \(\mathfrak{c}^+\) of \(\mathfrak{c}\) is unital with unit \(0\in\Omega_\mathfrak{c}\) and \[\alpha\comp_\mathfrak{c}\beta\conj(\alpha\cdot_\mathfrak{m}a)\comp_\mathfrak{m}(\beta\cdot_\mathfrak{m}b)\impl a\comp_\mathfrak{m}b\] for all non-zero \(\alpha,\beta\in\Omega_\mathfrak{c}\diff\{0\}\) and all \(a,b\in\Omega_\mathfrak{m}\). It is called \textit{right-strict} when the additive paramagma \(\mathfrak{m}^+\) of \(\mathfrak{m}\) is unital with unit \(0\in\Omega_\mathfrak{m}\) and \[a\comp_\mathfrak{m}b\conj(\alpha\cdot_\mathfrak{m}a)\comp_\mathfrak{m}(\beta\cdot_\mathfrak{m}b)\impl\alpha\comp_\mathfrak{c}\beta\] for all \(\alpha,\beta\in\Omega_\mathfrak{c}\) and all non-zero \(a,b\in\Omega_\mathfrak{m}\diff\{0\}\). It is called \textit{strict} when it is left-strict and right-strict.
+\end{definition}
+
+\begin{definition}[Distributive Left-Parafissure]
+Let \(\mathfrak{c}\) be a paracaldera. A left-parafissure \(\mathfrak{m}\) over \(\mathfrak{c}\) is called \textit{left-predistributive} (resp. \textit{right-predistributive}) when \[a\comp_\mathfrak{m}b\conj(\gamma\cdot_\mathfrak{m}a)\comp_\mathfrak{m}(\gamma\cdot_\mathfrak{m}b)\impl\gamma\cdot_\mathfrak{m}(a+_\mathfrak{m}b)=(\gamma\cdot_\mathfrak{m}a)+_\mathfrak{m}(\gamma\cdot_\mathfrak{m}b)\]\[(\text{resp. }\alpha\comp_\mathfrak{c}\beta\conj(\alpha\cdot_\mathfrak{m}c)\comp_\mathfrak{m}(\beta\cdot_\mathfrak{m}c)\impl\\(\alpha+_\mathfrak{c}\beta)\cdot_\mathfrak{m}c=(\alpha\cdot_\mathfrak{m}c)+_\mathfrak{m}(\beta\cdot_\mathfrak{m}c))\] for all \(\alpha,\beta,\gamma\in\Omega_\mathfrak{c}\) and all \(a,b,c\in\Omega_\mathfrak{m}\). It is called \textit{predistributive} when it is left-predistributive and right-predistributive. A left-parafissure \(\mathfrak{m}\) over \(\mathfrak{c}\) is called \textit{left-distributive} (resp. \textit{right-distributive}) when it is left-predistributive (resp. \textit{right-predistributive}) and \[a\comp_\mathfrak{m}b\impl(\gamma\cdot_\mathfrak{m}a)\comp_\mathfrak{m}(\gamma\cdot_\mathfrak{m}b)\qquad(\text{resp. }\alpha\comp_\mathfrak{c}\beta\impl(\alpha\cdot_\mathfrak{m}c)\comp_\mathfrak{m}(\beta\cdot_\mathfrak{m}c))\] for all \(\alpha,\beta,\gamma\in\Omega_\mathfrak{c}\) and all \(a,b,c\in\Omega_\mathfrak{m}\). It is called \textit{distributive} when it is left-distributive and right-distributive.
+\end{definition}
+
+\begin{definition}[Associative Left-Parafissure]
+Let \(\mathfrak{c}\) be a paracaldera. A left-parafissure \(\mathfrak{m}\) over \(\mathfrak{c}\) is called \textit{associative} when \((\alpha\cdot_\mathfrak{c}\beta)\cdot_\mathfrak{m}c=\alpha\cdot_\mathfrak{m}(\beta\cdot_\mathfrak{m}c)\) for all \(\alpha,\beta\in\Omega_\mathfrak{c}\) and all \(c\in\Omega_\mathfrak{m}\).
+\end{definition}
+
+\begin{definition}[Left-Paramodule]
+Let \(\mathfrak{c}\) be a pararing. A unital, strict, distributive and associative left-parafissure \(\mathfrak{m}\) over \(\mathfrak{c}\) is called a \textit{left-paramodule over} \(\mathfrak{c}\) when its additive paramagma \(\mathfrak{m}^+\) is an abelian paragroup.
+\end{definition}
+
+%Explicitly, the definition states that a left-parafissure \(\mathfrak{m}\) over \(\mathfrak{c}\) is called a paramodule over \(\mathfrak{c}\) when
+%\begin{align*}
+%\end{align*}
+
+\begin{definition}[Left-Paramodule Homomorphism]
+Left-paramodule (pre)homomorphisms are simply left-parafissure (pre)homomorphisms between left-paramodules.
+\end{definition}
+
+\begin{definition}[Paravector Space]
+Paravector spaces are simply left-paramodules over parafields.
+\end{definition}
+
+\begin{definition}[Paravector Space Homomorphism]
+Paravector space (pre)homomorphisms are simply left-paramodule (pre)homomorphisms between paravector spaces.
+\end{definition}
+
+\section{Paravector Spaces over \texorpdfstring{\(\mathbb{F}_1\)}{F1}}
+
+Let \(\mathfrak{c}\) be a parafield and let \(\text{\bf Vec}_?(\mathfrak{c})\) denote the category of paravector spaces over \(\mathfrak{c}\). Let \(\text{\bf Set}_0\) denote the category of pointed sets.
+
+\begin{theorem}[\(\text{\bf Vec}_?(\mathbb{F}_1)\cong\text{\bf Set}_0\)]
+The forgetful functor from \(\text{\bf Vec}_?(\mathbb{F}_1)\) to \(\text{\bf Set}_0\) associates to every \(\mathbb{F}_1\)-paravector space \(\mathfrak{m}\), the pointed set consisting of the set of elements \(\Omega_\mathfrak{m}\) of \(\mathfrak{m}\) and the base point \(0_\mathfrak{m}\in\Omega_\mathfrak{m}\). It is an isomorphism of categories.
+\vspace{-6pt}
+\begin{proof}
+Let \(\mathfrak{m}\) be a paravector space over \(\mathbb{F}_1\). Of course, every paravector is summable with zero, by unitality. But the contrapositive of right-strictness implies \[1_{\mathbb{F}_1}\ncomp_{\mathbb{F}_1}1_{\mathbb{F}_1}\impl(1_{\mathbb{F}_1}\cdot_\mathfrak{m}a)\ncomp_\mathfrak{m}(1_{\mathbb{F}_1}\cdot_\mathfrak{m}b)\disj a\ncomp_\mathfrak{m}b\text{,}\] and thus indeed \(a\ncomp_\mathfrak{m}b\) for all non-zero \(a,b\in\Omega_\mathfrak{m}\diff\{0_\mathfrak{m}\}\), again, by unitality. Therefore, the Cayley graphs of \(\mathbb{F}_1\)-paravector spaces consist of a zero vertex, as well as edges labelled by zero from any vertex to itself, and for every non-zero vertex \(v\), an edge labelled by \(v\) from zero to \(v\). Such a space can obviously be reconstructed from its set of elements and the choice of a distinguished element. Thus, the forgetful functor from \(\text{\bf Vec}_?(\mathbb{F}_1)\) to \(\text{\bf Set}_0\) is bijective on objects.
+
+Let \(\mathfrak{m}\) and \(\mathfrak{n}\) be paravector spaces over \(\mathbb{F}_1\) and let \(h\) be a paravector space homomorphism from \(\mathfrak{m}\) to \(\mathfrak{n}\) over \(\mathbb{F}_1\). For the same reasons as in the total case, \(h(0_\mathfrak{m})=0_\mathfrak{n}\), so \(h\) indeed induces a pointed map. Conversely, let \(g\in\Omega_\mathfrak{m}\to\Omega_\mathfrak{n}\) be a map from \(\Omega_\mathfrak{m}\) to \(\Omega_\mathfrak{n}\) such that \(g(0_\mathfrak{m})=0_\mathfrak{n}\). Then \(g\) is already a paravector space homomorphism from \(\mathfrak{m}\) to \(\mathfrak{n}\) over \(\mathbb{F}_1\), because \(\mathbb{F}_1\)-transformation is so trivial, and \(\mathbb{F}_1\)-paravector summability relations are so restricted that \(\mathbb{F}_1\)-paravector addition and transformation axioms degenerate and their preservation by homomorphisms holds trivially. Thus, the forgetful functor from \(\text{\bf Vec}_?(\mathbb{F}_1)\) to \(\text{\bf Set}_0\) is also bijective on morphisms.
+\end{proof}
+\end{theorem}
+
+\end{document}
